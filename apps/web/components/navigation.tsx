@@ -1,0 +1,4 @@
+"use client";
+import Link from "next/link";import {usePathname} from "next/navigation";
+const items=[["Overview","/overview"],["Live operations","/live"],["Incidents","/incidents"],["Pattern of life","/patterns"],["Assets","/assets"],["AI performance","/performance"],["What-If Lab","/what-if"]];
+export function Navigation(){const path=usePathname();return <nav aria-label="Primary" className="mt-8 flex gap-3 overflow-x-auto text-sm md:flex-col">{items.map(([label,href])=>{const active=path===href||((href==="/assets"||href==="/incidents")&&path.startsWith(`${href}/`));return <Link aria-current={active?"page":undefined} className={`whitespace-nowrap rounded px-2 py-2 ${active?"bg-[var(--canvas)] font-semibold before:mr-2 before:content-['•']":"hover:bg-[var(--canvas)]"}`} href={href} key={href}>{label}</Link>})}</nav>}

@@ -1,0 +1,1 @@
+import {IncidentDetail} from "../../../components/incidents"; import {InvestigationFeedback} from "../../../components/investigation-feedback"; export default async function Page({params}:{params:Promise<{id:string}>}){const {id}=await params;return <><IncidentDetail id={id}/><InvestigationFeedback incidentId={id}/></>}

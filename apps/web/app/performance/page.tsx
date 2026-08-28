@@ -1,0 +1,4 @@
+"use client";
+import {useEffect,useState} from "react";
+const api=process.env.NEXT_PUBLIC_API_URL??"http://localhost:8000";
+export default function Performance(){const [data,setData]=useState<Record<string,number>|null>(null);useEffect(()=>{fetch(`${api}/metrics/evaluation`).then(r=>r.json()).then(setData)},[]);return <><p className="text-sm font-medium text-accent">Evaluation</p><h1 className="mt-2 text-3xl font-semibold">AI performance</h1><p className="mt-2 text-sm text-muted">Seeded-data measurements; not claims about live operations.</p><dl className="mt-6 grid max-w-2xl gap-4 sm:grid-cols-2">{data&&Object.entries(data).map(([name,value])=><div className="rounded-lg border border-[var(--border)] bg-surface p-5" key={name}><dt className="text-sm text-muted">{name.replaceAll("_"," ")}</dt><dd className="mt-2 text-2xl font-semibold tabular-nums">{value}</dd></div>)}</dl></>}
