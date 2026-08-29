@@ -1,4 +1,5 @@
-from contextlib import asynccontextmanager
+import asyncio
+from contextlib import asynccontextmanager, suppress
 import logging
 from datetime import datetime
 from fastapi import FastAPI, HTTPException, Query
@@ -13,9 +14,24 @@ from app.reasoning.correlation import correlation
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 logging.basicConfig(level=logging.INFO,format="%(asctime)s %(levelname)s %(name)s %(message)s")
+
+async def simulation_clock() -> None:
+    """Advance the shared demo once per interval while it is running."""
+    while True:
+        await asyncio.sleep(2)
+        if repository.running:
+            repository.advance()
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    logging.getLogger("opsintel").info("dataset loaded events=%s seed=%s",len(repository.events),repository.seed); yield
+    logging.getLogger("opsintel").info("dataset loaded events=%s seed=%s",len(repository.events),repository.seed)
+    clock_task=asyncio.create_task(simulation_clock())
+    try:
+        yield
+    finally:
+        clock_task.cancel()
+        with suppress(asyncio.CancelledError):
+            await clock_task
 app=FastAPI(title="OpsIntel API",version=settings.api_version,lifespan=lifespan)
 app.add_middleware(CORSMiddleware,allow_origins=list(settings.cors_allowed_origins),allow_credentials=False,allow_methods=["GET","POST"],allow_headers=["*"])
 

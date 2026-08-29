@@ -4,6 +4,12 @@ Behavioral intelligence for physical operations—connecting operational events,
 
 > Independent proof-of-work prototype demonstrating Operational AI concepts using synthetic data.
 
+## Public demo
+
+- [Live application](https://opsintel-web.vercel.app)
+- [Backend health](https://opsintel-api.onrender.com/health)
+- [Source repository](https://github.com/biswajith16/opsintel)
+
 ## What OpsIntel does
 
 OpsIntel models expected routes, dwell patterns, activity windows, and machine operating ranges. It scores deviations, correlates related events into incidents, builds evidence graphs, ranks competing root-cause hypotheses, and records operator feedback for evaluation.
